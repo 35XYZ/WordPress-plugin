@@ -14,6 +14,11 @@ if ( !defined( 'ABSPATH' ) ) {
     exit;
 }
 
+// 从插件头部读取版本，统一用于本插件静态资源
+$user_center_plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ), 'plugin' );
+define( 'USER_CENTER_VERSION', $user_center_plugin_data['Version'] );
+unset( $user_center_plugin_data );
+
 // 定义插件路径
 define( 'USER_CENTER_PATH', plugin_dir_path( __FILE__ ) );
 define( 'USER_CENTER_URL', plugin_dir_url( __FILE__ ) );
@@ -55,13 +60,13 @@ require_once USER_CENTER_PATH . 'includes/ajax-handlers.php';
 add_action( 'wp_enqueue_scripts', 'user_center_enqueue_assets' );
 function user_center_enqueue_assets() {
     // 加载主样式
-    wp_enqueue_style( 'user-center-style', USER_CENTER_URL . 'css/style.css', array(), '1.2' );
+    wp_enqueue_style( 'user-center-style', USER_CENTER_URL . 'css/style.css', array(), USER_CENTER_VERSION );
     
     // 加载Font Awesome
     wp_enqueue_style( 'font-awesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css' );
     
     // 加载脚本
-    wp_enqueue_script( 'user_center-script', USER_CENTER_URL . 'js/script.js', array( 'jquery' ), '1.2', true );
+    wp_enqueue_script( 'user_center-script', USER_CENTER_URL . 'js/script.js', array( 'jquery' ), USER_CENTER_VERSION, true );
     
     // 本地化脚本
     wp_localize_script( 'user_center-script', 'user_center', array(
